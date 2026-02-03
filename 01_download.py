@@ -18,18 +18,9 @@ def run_command(command, verbose=True):
 parser = argparse.ArgumentParser(description="Download SRA files, convert to FASTQ, and run initial FastQC.")
 parser.add_argument('-nv', '--verbose', action='store_false', help='Disable verbose output')
 parser.add_argument('-m', '--memory', action='store_true', help='Delete SRA files after conversion to save memory')
-parser.add_argument('-o', '--organism', type=str, required=True, choices=['Mus', 'Homo'], help='Organism name')
 parser.add_argument('-e', '--end', type=str, default='se', choices=['se', 'pe'], help='Single-end (se) or paired-end (pe) sequencing')
 
 args = parser.parse_args()
-
-# Set paths
-genome_paths = {
-    'Mus': ('temporary/bowtie2/refGenomes/mm10.fasta', 'temporary/feature_counts/data/mm10_RefSeq_exon.txt'),
-    'Homo': ('temporary/bowtie2/refGenomes/GRCh38_noalt_as', 'temporary/feature_counts/data/hg38_RefSeq_exon.txt')
-}
-
-refGenomePath, annotationPath = genome_paths[args.organism]
 
 # Read Accession List
 accession_list = [line.strip() for line in Path('input/SRRAccList.txt').read_text().splitlines()]
